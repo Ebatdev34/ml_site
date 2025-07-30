@@ -1,0 +1,8 @@
+[theme]
+#i want machine learning app to have a dark theme and cool for user
+base="dark"
+primaryColor="#1f77b4"
+backgroundColor="#0a0a1a"
+secondaryBackgroundColor="#1a1a2e"
+textColor="#f0f0f0"
+font="monospace"     
