@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import io
+import openpyxl
 from utils.data_processor import DataProcessor
 from utils.model_trainer import ModelTrainer
 from utils.visualizer import Visualizer
