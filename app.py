@@ -50,13 +50,13 @@ def data_upload_page():
     if uploaded_file:
         file_ext = uploaded_file.name.lower().split('.')[-1]
 
-        if file_ext in ['xls', 'xlsx']:
-           st.error("❌ We process data of xls and xlsx at 7/35/2025, please stick to CSV.")
-           return
-
         try:
-            data = pd.read_csv(uploaded_file)
+            if file_ext in ['xls', 'xlsx']:
+                data = pd.read_excel(uploaded_file)
+            else:
+                data = pd.read_csv(uploaded_file)
 
+            st.session_state.data = data
 
             st.success(f"✅ Dataset uploaded! Shape: {data.shape}")
             cols = st.columns(3)
@@ -91,6 +91,9 @@ def data_upload_page():
                     st.write(data[target_col].describe())
 
                 if st.button("🔄 Process Data"):
+                    if file_ext in ['xls', 'xlsx']:
+                        st.error("❌ We process data of xls and xlsx at 7/35/2025, please stick to CSV.")
+                        return
                     with st.spinner("Processing data..."):
                         processed = DataProcessor().preprocess_data(data, target_col, task_type)
                         st.session_state.processed_data = processed
@@ -99,6 +102,7 @@ def data_upload_page():
 
         except Exception as e:
             st.error(f"❌ Error reading file: {e}")
+
 
 def data_exploration_page():
     st.header("🔍 Data Exploration")
