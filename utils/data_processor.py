@@ -44,7 +44,10 @@ class DataProcessor:
         
         # Store feature names for later use
         feature_names = X.columns.tolist()
-        
+        # Example: Fixing mixed-type columns before encoding
+        for col in data.select_dtypes(include=['object', 'category']).columns:
+            data[col] = data[col].astype(str)
+
         return {
             'X': X,
             'y': y,
@@ -78,16 +81,19 @@ class DataProcessor:
     def _encode_categorical_features(self, X):
         """Encode categorical features using label encoding"""
         encoded_columns = []
-        categorical_cols = X.select_dtypes(include=['object']).columns
-        
+        categorical_cols = X.select_dtypes(include=['object', 'category']).columns
+
         for col in categorical_cols:
+        # Fix mixed types BEFORE encoding
+            X[col] = X[col].astype(str)
+
             le = LabelEncoder()
-            X[col] = le.fit_transform(X[col].astype(str))
+            X[col] = le.fit_transform(X[col])
             self.label_encoders[col] = le
             encoded_columns.append(col)
-        
-        return X, encoded_columns
     
+        return X, encoded_columns
+
     def _scale_numerical_features(self, X):
         """Scale numerical features using StandardScaler"""
         numerical_cols = X.select_dtypes(include=[np.number]).columns
