@@ -309,6 +309,24 @@ def export_page():
     - **Feature Importance**: Understand which features matter most.  
     - **Next Steps**: Consider more data, feature engineering, or ensembles.
     """)
+# --- Dev Chat Sidebar (simple shared message board) ---
+with st.sidebar:
+    st.subheader("💬 Dev Chat Room")
+
+    if "chat_messages" not in st.session_state:
+        st.session_state.chat_messages = []
+
+    new_message = st.text_input("Leave a message", key="dev_chat_input")
+
+    if st.button("Send"):
+        if new_message.strip():
+            st.session_state.chat_messages.append(new_message)
+            st.experimental_rerun()
+
+    if st.session_state.chat_messages:
+        st.write("### 📜 Messages")
+        for i, msg in enumerate(reversed(st.session_state.chat_messages), 1):
+            st.markdown(f"**Dev {len(st.session_state.chat_messages) - i + 1}:** {msg}")
 
 if __name__ == "__main__":
     main()
