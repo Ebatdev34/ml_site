@@ -48,12 +48,15 @@ def data_upload_page():
     )
 
     if uploaded_file:
+        file_ext = uploaded_file.name.lower().split('.')[-1]
+
+        if file_ext in ['xls', 'xlsx']:
+           st.error("❌ We process data of xls and xlsx at 7/35/2025, please stick to CSV.")
+           return
+
         try:
-            if uploaded_file.name.endswith(('.xls', '.xlsx')):
-                data = pd.read_excel(uploaded_file)
-            else:
-                data = pd.read_csv(uploaded_file)
-            st.session_state.data = data
+            data = pd.read_csv(uploaded_file)
+
 
             st.success(f"✅ Dataset uploaded! Shape: {data.shape}")
             cols = st.columns(3)
