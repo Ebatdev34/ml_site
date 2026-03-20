@@ -1,7 +1,7 @@
 # ================================================================
 #  ML UNIVERSE  —  by Ebatdev
 #  Full ML Pipeline · Premium Dark UI
-#  Data Upload · Exploration · Training · Results · Export
+#  Data Upload · Explorationi · Training · Results · Export
 # ================================================================
 
 import streamlit as st
